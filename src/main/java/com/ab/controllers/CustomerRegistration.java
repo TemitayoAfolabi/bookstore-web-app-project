@@ -7,19 +7,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 import com.ab.daos.CustomerDao;
-import com.ab.daos.CustomerDaoImpl;
 import com.ab.models.Customer;
 import com.ab.services.CustomerService;
 import com.ab.services.CustomerServiceImpl;
+import com.ab.utilities.BSFactory;
 
 /**
- * Servlet implementation class CustomerRegistration
+ * Servlet implementation class CustomerRegistrationServlet
  */
-@WebServlet("/CustomerRegistration")
+@WebServlet("/CustomerRegistrationServlet")
 public class CustomerRegistration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -29,44 +31,35 @@ public class CustomerRegistration extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 		
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
-		String customerEmail = request.getParameter("email");
-		String customerPassword = request.getParameter("password"); 
+		String customerEmail = request.getParameter("customerEmail");
+		String customerpassword = request.getParameter("customerpassword");
 		
+		Customer customer = BSFactory.getCustomer(firstName, lastName, customerEmail, customerpassword);
 		
-		Customer customer = new Customer(firstName, lastName,customerEmail, customerPassword);
+		CustomerDao dao = BSFactory.getCustomerDao();
 		
-		CustomerDao dao = new CustomerDaoImpl();
-		
-		CustomerService customerService = new CustomerServiceImpl(dao); 
+		CustomerService customerService = BSFactory.getCustomerService(dao);
 		
 		Customer registeredCustomer = customerService.registerCustomer(customer);
 		
-		if (registeredCustomer != null) {
+      
+		if(!(firstName.isEmpty()&& lastName.isEmpty() && customerEmail.isEmpty() && customerpassword.isEmpty())&& registeredCustomer != null){
+        	
 			response.sendRedirect("register_success.jsp");
-		}
-		else {
+			
+		}else {
+			
 			response.sendRedirect("register_failed.jsp");
 		}
 		
-		
 	}
-		
-}
 
+}

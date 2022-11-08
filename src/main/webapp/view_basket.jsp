@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@page import="com.ab.models.Book" %>
+<%@page import="com.ab.models.Basket" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,10 +20,10 @@ body {margin: 0;
  
  }
  letter {
-   color: #ea503f; 
+   color: #ea503f;
    font-family: Arial;
  }
-
+ 
 ul.topnav {
   list-style-type: none;
   margin: 0;
@@ -66,32 +67,31 @@ ul.topnav li.right {float: right;}
   <li class="right"><a href="index.jsp">Sign Up</a></li> 
 </ul>
 </div>
-<form action="http://localhost:8080/online-book-store-application/ReadBookServlet"  method="GET">
+<form action="http://localhost:8080/online-book-store-application/BasketViewServlet"  method="GET">
 <%
-List<Book> books = (List<Book>)session.getAttribute("bList");
+Basket b =(Basket)session.getAttribute("addBook");
 
 %> 
-<div class="letter"><h1>WELCOME TO VIEW BOOKS</h1></div>
+<div class="letter"><h1>Book Added to Basket</h1></div>
 <center>
-<table border="4">
+<br>
+<table border="4" style="width:30%">
   <tr>
-    <th>Available Books</th>
+    <th>Title</th>
+    <th>$ Price</th>
   </tr>
-    <c:forEach items="${bList}" var="b">
-        <tr>
-            <td><c:out value="${b.bookTitle}" /></td>
-           <td>      
-        <form action="http://localhost:8080/online-book-store-application/ReadBookServlet" method="GET"> 
-        <input type="text" value="${b.bookTitle}" name="bookTitle" hidden=""/>
-       <input type="submit" value="Read Book"/>
-       </td>
+        <tr style = "text-align :center ">
+            <td><a><%=b.getBookTitle()%></a></td>
+            <td><a><%=b.getBookPrice()%></a></td>
+            <td> <form action="http://localhost:8080/online-book-store-application/BasketViewServlet" method="GET"> 
+            <input type="submit" value="View Basket"/>
+ </form>  
+ </td> 
+      </tr>    
  </form>
- </tr>
-    </c:forEach>
 </table>
 <br>
 </center>
 </form>
-
 </body>
 </html>
