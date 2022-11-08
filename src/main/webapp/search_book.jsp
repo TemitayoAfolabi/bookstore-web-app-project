@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@page import="com.ab.models.Book" %>
+<%@page errorPage="error.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@ body {margin: 0;
  
  }
  letter {
-   color: #ea503f; 
+   color: #ea503f;
    font-family: Arial;
  }
 
@@ -58,38 +59,38 @@ ul.topnav li.right {float: right;}
 <div>
 <ul class="topnav">
   <li><a class="active" href="welcome.jsp">Home</a></li>
-  <li><a href="http://localhost:8080/online-book-store-application/ViewBookServlet">View Available Books</a></li>
+  <li><a href="view_books.jsp">View Available Books</a></li>
   <li><a href="search_book.jsp">Search Books</a></li>
-  <li><a href="http://localhost:8080/online-book-store-application/BasketViewServlet">View Basket</a></li>
+  <li><a href="http://localhost:8080/online-book-store-application/BasketAddServlet">View Basket</a></li>
   <li><a href="login.jsp">Checkout</a></li>
   <li class="right"><a href="login.jsp">Login</a></li>
-  <li class="right"><a href="index.jsp">Sign Up</a></li> 
+  <li class="right"><a href="index.jsp">Sign Up</a></li>
+  
 </ul>
 </div>
-<form action="http://localhost:8080/online-book-store-application/ReadBookServlet"  method="GET">
-<%
-List<Book> books = (List<Book>)session.getAttribute("bList");
 
-%> 
-<div class="letter"><h1>WELCOME TO VIEW BOOKS</h1></div>
+<div class="letter"><h1>WELCOME TO SEARCH A BOOK</h1> </div>
+ <center>
+ <form action="http://localhost:8080/online-book-store-application/SerachBookServlet"  method="POST">
+ <input type="text" id="search" name="search" placeholder="Enter a valid ISBN">
+ <input type="submit"  value="Search"></center>
 <center>
-<table border="4">
-  <tr>
-    <th>Available Books</th>
-  </tr>
-    <c:forEach items="${bList}" var="b">
-        <tr>
-            <td><c:out value="${b.bookTitle}" /></td>
-           <td>      
-        <form action="http://localhost:8080/online-book-store-application/ReadBookServlet" method="GET"> 
-        <input type="text" value="${b.bookTitle}" name="bookTitle" hidden=""/>
-       <input type="submit" value="Read Book"/>
-       </td>
- </form>
- </tr>
-    </c:forEach>
-</table>
 <br>
+<%
+//Book title =(Book)session.getAttribute("searchBook");
+
+
+ 
+%> 
+<br>
+<table border="4" style="width:15%">
+  <tr>
+    <th>Search Results</th>
+  </tr>
+       <td> ${bookTitle} </td>
+        
+  </tr>
+</table>
 </center>
 </form>
 

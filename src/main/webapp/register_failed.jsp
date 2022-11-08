@@ -59,7 +59,7 @@ ul.topnav li.right {float: right;}
   <li class="right"><a href="index.jsp">Sign Up</a></li> 
 </ul>
 </div>
-	<p style="color: red;"><h1>Registration Successful !!!</h1></p>
+	<p style="color: red;"><h1>Registration Failed !!!</h1></p>
 
 </body>
 </html>
